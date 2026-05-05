@@ -1,0 +1,129 @@
+<!-- src/app/features/movies/movie-list/movie-list.component.html -->
+<!-- <app-navbar></app-navbar>
+
+<main class="browse-page">
+  <div class="page-header">
+    <h1>{{ isSearching ? '🔍 Search Results' : 'Browse Movies' }}</h1>
+    <p *ngIf="isSearching">Results for "<strong>{{ searchQuery }}</strong>"</p>
+
+    <form class="search-bar" (ngSubmit)="onSearch()">
+      <input
+        type="text"
+        [(ngModel)]="searchQuery"
+        name="searchQuery"
+        placeholder="Search for any movie…"
+      />
+      <button type="submit">Search</button>
+    </form>
+  </div> -->
+
+  <!-- Category Tabs -->
+  <!-- <div class="category-tabs" *ngIf="!isSearching">
+    <button
+      *ngFor="let cat of categories"
+      [class.active]="activeCategory === cat.key"
+      (click)="selectCategory(cat.key)"
+    >{{ cat.label }}</button>
+  </div> -->
+
+  <!-- Loading -->
+  <!-- <div class="loading-state" *ngIf="loading">
+    <div class="spinner-large"></div>
+  </div> -->
+
+  <!-- Movie Grid -->
+  <!-- <div class="movie-grid" *ngIf="!loading">
+    <app-movie-card
+      *ngFor="let movie of movies"
+      [movie]="movie"
+      [isInWatchlist]="isInWatchlist(movie.id)"
+      (watchlistToggled)="toggleWatchlist($event)"
+    ></app-movie-card>
+  </div> -->
+
+  <!-- No results -->
+  <!-- <div class="empty-state" *ngIf="!loading && movies.length === 0">
+    <span>🎬</span>
+    <p>No movies found. Try a different search.</p>
+  </div> -->
+
+  <!-- Pagination -->
+  <!-- <div class="pagination" *ngIf="totalPages > 1 && !loading">
+    <button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">‹ Prev</button>
+    <button
+      *ngFor="let p of pages"
+      [class.active]="p === currentPage"
+      (click)="changePage(p)"
+    >{{ p }}</button>
+    <button (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages">Next ›</button>
+  </div>
+</main> -->
+<app-navbar></app-navbar>
+
+<main class="browse-page">
+  <div class="page-header">
+
+    <!-- Add this line — uses routerLink so the import is valid -->
+    <a routerLink="/home" class="back-link">← Back to Home</a>
+
+    <h1>{{ isSearching ? 'Search Results' : 'Browse Movies' }}</h1>
+    <p *ngIf="isSearching">Results for "<strong>{{ searchQuery }}</strong>"</p>
+
+    <form class="search-bar" (ngSubmit)="onSearch()">
+      <input
+        type="text"
+        [(ngModel)]="searchQuery"
+        name="searchQuery"
+        placeholder="Search for any movie..."
+      />
+      <button type="submit">Search</button>
+    </form>
+  </div>
+
+  <!-- Category Tabs -->
+  <div class="category-tabs" *ngIf="!isSearching">
+    <button
+      *ngFor="let cat of categories"
+      [class.active]="activeCategory === cat.key"
+      (click)="selectCategory(cat.key)"
+    >{{ cat.label }}</button>
+  </div>
+
+  <!-- Loading -->
+  <div class="loading-state" *ngIf="loading">
+    <div class="spinner-large"></div>
+  </div>
+
+  <!-- Movie Grid -->
+  <div class="movie-grid" *ngIf="!loading">
+    <app-movie-card
+      *ngFor="let movie of movies"
+      [movie]="movie"
+      [isInWatchlist]="isInWatchlist(movie.id)"
+      (watchlistToggled)="toggleWatchlist($event)"
+    ></app-movie-card>
+  </div>
+
+  <!-- No results -->
+  <div class="empty-state" *ngIf="!loading && movies.length === 0">
+    <span>No movies found.</span>
+    <p>Try a different search.</p>
+  </div>
+
+  <!-- Pagination -->
+  <div class="pagination" *ngIf="totalPages > 1 && !loading">
+    <button
+      (click)="changePage(currentPage - 1)"
+      [disabled]="currentPage === 1"
+    >Prev</button>
+    <button
+      *ngFor="let p of pages"
+      [class.active]="p === currentPage"
+      (click)="changePage(p)"
+    >{{ p }}</button>
+    <button
+      (click)="changePage(currentPage + 1)"
+      [disabled]="currentPage === totalPages"
+    >Next</button>
+  </div>
+</main>

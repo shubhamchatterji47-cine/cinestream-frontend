@@ -1,0 +1,33 @@
+<!-- src/app/features/watchlist/watchlist.component.html -->
+<app-navbar></app-navbar>
+
+<main class="watchlist-page">
+  <div class="page-header">
+    <h1>My Watchlist</h1>
+    <p>{{ items.length }} {{ items.length === 1 ? 'movie' : 'movies' }} saved</p>
+  </div>
+
+  <div class="loading-state" *ngIf="loading">
+    <div class="spinner-large"></div>
+  </div>
+
+  <div class="empty-state" *ngIf="!loading && items.length === 0">
+    <span>📽️</span>
+    <h2>Your watchlist is empty</h2>
+    <p>Browse movies and add them to your watchlist</p>
+    <a routerLink="/movies" class="btn-browse">Browse Movies</a>
+  </div>
+
+  <div class="watchlist-grid" *ngIf="!loading && items.length > 0">
+    <div class="watchlist-item" *ngFor="let item of items">
+      <a [routerLink]="['/movies', item.tmdbMovieId]" class="item-link">
+        <img [src]="posterUrl(item.posterPath)" [alt]="item.movieTitle" class="item-poster" />
+        <div class="item-info">
+          <h3 class="item-title">{{ item.movieTitle }}</h3>
+          <p class="item-date">Added {{ item.addedAt | date:'mediumDate' }}</p>
+        </div>
+      </a>
+      <button class="remove-btn" (click)="remove(item)" title="Remove from watchlist">✕</button>
+    </div>
+  </div>
+</main>

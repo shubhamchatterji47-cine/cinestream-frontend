@@ -1,0 +1,81 @@
+<!-- src/app/features/home/home.component.html -->
+<app-navbar></app-navbar>
+
+<main class="home">
+  <!-- Hero Banner -->
+  <section class="hero" *ngIf="heroMovie" [style.backgroundImage]="'url(' + heroMovie.backdropUrl + ')'">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-badge">🔥 Trending Now</div>
+      <h1 class="hero-title">{{ heroMovie.title }}</h1>
+      <p class="hero-overview">{{ heroMovie.overview | slice:0:180 }}…</p>
+      <div class="hero-meta">
+        <span class="rating">★ {{ heroMovie.voteAverage | number:'1.1-1' }}</span>
+        <span class="year">{{ heroMovie.releaseDate | slice:0:4 }}</span>
+      </div>
+      <div class="hero-actions">
+        <a [routerLink]="['/movies', heroMovie.id]" class="btn-hero-primary">▶ Watch Now</a>
+        <button class="btn-hero-secondary" (click)="toggleWatchlist(heroMovie)">
+          {{ isInWatchlist(heroMovie.id) ? '✓ In Watchlist' : '+ Watchlist' }}
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <div class="sections" *ngIf="!loading">
+
+    <!-- Trending -->
+    <section class="movie-section">
+      <div class="section-header">
+        <h2>🔥 Trending This Week</h2>
+        <a routerLink="/movies" [queryParams]="{category: 'trending'}">See all →</a>
+      </div>
+      <div class="movie-grid">
+        <app-movie-card
+          *ngFor="let movie of trending | slice:0:8"
+          [movie]="movie"
+          [isInWatchlist]="isInWatchlist(movie.id)"
+          (watchlistToggled)="toggleWatchlist($event)"
+        ></app-movie-card>
+      </div>
+    </section>
+
+    <!-- Now Playing -->
+    <section class="movie-section">
+      <div class="section-header">
+        <h2>🎭 Now Playing</h2>
+        <a routerLink="/movies" [queryParams]="{category: 'now-playing'}">See all →</a>
+      </div>
+      <div class="movie-grid">
+        <app-movie-card
+          *ngFor="let movie of nowPlaying | slice:0:8"
+          [movie]="movie"
+          [isInWatchlist]="isInWatchlist(movie.id)"
+          (watchlistToggled)="toggleWatchlist($event)"
+        ></app-movie-card>
+      </div>
+    </section>
+
+    <!-- Top Rated -->
+    <section class="movie-section">
+      <div class="section-header">
+        <h2>⭐ Top Rated All Time</h2>
+        <a routerLink="/movies" [queryParams]="{category: 'top-rated'}">See all →</a>
+      </div>
+      <div class="movie-grid">
+        <app-movie-card
+          *ngFor="let movie of topRated | slice:0:8"
+          [movie]="movie"
+          [isInWatchlist]="isInWatchlist(movie.id)"
+          (watchlistToggled)="toggleWatchlist($event)"
+        ></app-movie-card>
+      </div>
+    </section>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading-state" *ngIf="loading">
+    <div class="spinner-large"></div>
+    <p>Loading movies…</p>
+  </div>
+</main>

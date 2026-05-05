@@ -1,0 +1,120 @@
+<!-- src/app/features/auth/register/register.component.html -->
+<div class="auth-page">
+  <div class="auth-bg"></div>
+  <div class="auth-container">
+    <div class="auth-card">
+      <div class="brand">
+        <span class="brand-icon">🎬</span>
+        <h1>CineStream</h1>
+      </div>
+
+      <h2 class="auth-title">Create your account</h2>
+      <p class="auth-sub">Start watching thousands of movies for free</p>
+
+      <div class="alert alert-error" *ngIf="error">
+        <span>⚠</span> {{ error }}
+      </div>
+
+      <!-- ✅ Added loading class (optional UX improvement) -->
+      <!-- OLD: <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate> -->
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" [class.disabled]="loading" novalidate>
+
+        <!-- FULL NAME -->
+        <div class="field" [class.has-error]="fullName.invalid && fullName.touched">
+          <label>Full Name</label>
+          <input type="text" formControlName="fullName" placeholder="John Doe" />
+
+          <span class="field-error" *ngIf="fullName.errors?.['required'] && fullName.touched">
+            Name is required.
+          </span>
+
+          <!-- ✅ NEW: minlength validation -->
+          <span class="field-error" *ngIf="fullName.errors?.['minlength'] && fullName.touched">
+            Name must be at least 2 characters.
+          </span>
+        </div>
+
+        <!-- EMAIL -->
+        <div class="field" [class.has-error]="email.invalid && email.touched">
+          <label>Email Address</label>
+          <input type="email" formControlName="email" placeholder="you@example.com" />
+
+          <span class="field-error" *ngIf="email.errors?.['required'] && email.touched">
+            Email is required.
+          </span>
+
+          <span class="field-error" *ngIf="email.errors?.['email'] && email.touched">
+            Enter a valid email.
+          </span>
+        </div>
+
+        <!-- PASSWORD -->
+        <!-- ❌ OLD VERSION -->
+        <!--
+        <input type="password" formControlName="password" placeholder="Min 6 characters" />
+        -->
+
+        <!-- ✅ NEW VERSION WITH SHOW/HIDE -->
+        <div class="field" [class.has-error]="password.invalid && password.touched">
+          <label>Password</label>
+
+          <div class="input-wrapper">
+            <input
+              [type]="showPassword ? 'text' : 'password'"
+              formControlName="password"
+              placeholder="Min 6 characters"
+            />
+
+            <!-- 👁 Toggle -->
+            <button type="button" class="toggle-pw" (click)="showPassword = !showPassword">
+              {{ showPassword ? '🙈' : '👁' }}
+            </button>
+          </div>
+
+          <!-- ✅ NEW: required validation -->
+          <span class="field-error" *ngIf="password.errors?.['required'] && password.touched">
+            Password is required.
+          </span>
+
+          <span class="field-error" *ngIf="password.errors?.['minlength'] && password.touched">
+            Password must be at least 6 characters.
+          </span>
+        </div>
+
+        <!-- CONFIRM PASSWORD -->
+        <!-- ❌ OLD VERSION -->
+        <!--
+        <input type="password" formControlName="confirmPassword" placeholder="Repeat password" />
+        -->
+
+        <!-- ✅ NEW VERSION WITH MATCHED STYLE -->
+        <div class="field" [class.has-error]="form.errors?.['mismatch'] && confirmPassword.touched">
+          <label>Confirm Password</label>
+
+          <div class="input-wrapper">
+            <input
+              [type]="showPassword ? 'text' : 'password'"
+              formControlName="confirmPassword"
+              placeholder="Repeat password"
+            />
+          </div>
+
+          <span class="field-error" *ngIf="form.errors?.['mismatch'] && confirmPassword.touched">
+            Passwords do not match.
+          </span>
+        </div>
+
+        <!-- BUTTON -->
+        <button type="submit" class="btn-primary" [disabled]="loading">
+          <span *ngIf="!loading">Create Account</span>
+          <span *ngIf="loading" class="spinner"></span>
+        </button>
+      </form>
+
+      <p class="auth-footer">
+        Already have an account?
+        <a routerLink="/login">Sign in</a>
+      </p>
+    </div>
+  </div>
+</div>

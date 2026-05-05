@@ -1,0 +1,112 @@
+<!-- src/app/features/movies/movie-detail/movie-detail.component.html -->
+<app-navbar></app-navbar>
+
+<div class="loading-state" *ngIf="loading">
+  <div class="spinner-large"></div>
+</div>
+
+<main class="detail-page" *ngIf="movie && !loading">
+  <!-- Backdrop -->
+  <div class="backdrop" [style.backgroundImage]="'url(' + movie.backdropUrl + ')'">
+    <div class="backdrop-overlay"></div>
+  </div>
+
+  <!-- Trailer Modal -->
+  <div class="trailer-modal" *ngIf="showTrailer" (click)="showTrailer = false">
+    <div class="trailer-wrap" (click)="$event.stopPropagation()">
+      <button class="close-btn" (click)="showTrailer = false">✕</button>
+      <iframe
+        *ngIf="trailerUrl"
+        [src]="trailerUrl"
+        allowfullscreen
+        allow="autoplay; encrypted-media"
+      ></iframe>
+    </div>
+  </div>
+  <!-- Full movie embed using TMDB movie ID -->
+<div class="player-wrap" *ngIf="movie">
+  <iframe
+    [src]="getMovieEmbedUrl(movie.id)"
+    allowfullscreen
+    allow="autoplay; encrypted-media"
+    class="movie-player"
+  ></iframe>
+</div>
+
+  <!-- Main Content -->
+  <div class="content">
+    <div class="poster-col">
+      <img [src]="movie.posterUrl" [alt]="movie.title" class="poster" />
+    </div>
+
+    <div class="info-col">
+      <div class="breadcrumb">
+        <a routerLink="/movies">← Browse</a>
+      </div>
+
+      <div class="genres">
+        <span class="genre-tag" *ngFor="let g of movie.genres">{{ g.name }}</span>
+      </div>
+
+      <h1 class="title">{{ movie.title }}</h1>
+
+      <p class="tagline" *ngIf="movie.tagline">"{{ movie.tagline }}"</p>
+
+      <div class="meta-row">
+        <span class="rating">★ {{ movie.voteAverage | number:'1.1-1' }}</span>
+        <span class="divider">·</span>
+        <span>{{ movie.releaseDate | slice:0:4 }}</span>
+        <span class="divider">·</span>
+        <span *ngIf="movie.runtime">{{ formatRuntime(movie.runtime) }}</span>
+        <span class="status-badge" [class.released]="movie.status === 'Released'">
+          {{ movie.status }}
+        </span>
+      </div>
+
+      <p class="overview">{{ movie.overview }}</p>
+
+      <!-- Actions -->
+      <div class="actions">
+        <button class="btn-trailer" (click)="showTrailer = true" *ngIf="trailerUrl">
+          ▶ Watch Trailer
+        </button>
+        <button class="btn-watchlist" (click)="toggleWatchlist()" [class.added]="isInWatchlist">
+          {{ isInWatchlist ? '✓ In Watchlist' : '+ Add to Watchlist' }}
+        </button>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-grid">
+        <div class="stat" *ngIf="movie.budget">
+          <span class="stat-label">Budget</span>
+          <span class="stat-value">{{ formatCurrency(movie.budget) }}</span>
+        </div>
+        <div class="stat" *ngIf="movie.revenue">
+          <span class="stat-label">Revenue</span>
+          <span class="stat-value">{{ formatCurrency(movie.revenue) }}</span>
+        </div>
+      </div>
+
+      <!-- Cast -->
+      <div class="cast-section" *ngIf="movie.credits?.cast?.length">
+        <h3>Top Cast</h3>
+        <div class="cast-list">
+          <div class="cast-member" *ngFor="let actor of movie.credits!.cast | slice:0:6">
+            <div class="cast-avatar">
+              <img
+                *ngIf="actor.profilePath"
+                [src]="'https://image.tmdb.org/t/p/w185' + actor.profilePath"
+                [alt]="actor.name"
+              />
+              <span *ngIf="!actor.profilePath">{{ actor.name[0] }}</span>
+            </div>
+            <div>
+              <p class="cast-name">{{ actor.name }}</p>
+              <p class="cast-char">{{ actor.character }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

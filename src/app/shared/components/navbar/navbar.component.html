@@ -1,0 +1,33 @@
+<!-- src/app/shared/components/navbar/navbar.component.html -->
+<nav class="navbar">
+  <div class="nav-inner">
+    <a routerLink="/home" class="brand">
+      <span>🎬</span> CineStream
+    </a>
+
+    <div class="nav-links">
+      <a routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Home</a>
+      <a routerLink="/movies" routerLinkActive="active">Browse</a>
+      <a routerLink="/watchlist" routerLinkActive="active">Watchlist</a>
+    </div>
+
+    <div class="nav-right">
+      <form class="search-form" (ngSubmit)="onSearch()">
+        <input
+          type="text"
+          [(ngModel)]="searchQuery"
+          name="searchQuery"
+          placeholder="Search movies…"
+          class="search-input"
+        />
+        <button type="submit" class="search-btn">🔍</button>
+      </form>
+
+      <div class="user-menu" *ngIf="authService.currentUser() as user">
+        <span class="user-avatar">{{ user.name[0].toUpperCase() }}</span>
+        <span class="user-name">{{ user.name }}</span>
+        <button class="logout-btn" (click)="logout()">Sign out</button>
+      </div>
+    </div>
+  </div>
+</nav>
