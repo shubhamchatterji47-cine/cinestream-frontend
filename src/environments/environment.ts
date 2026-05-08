@@ -9,3 +9,7 @@
 //   production: true,
 //   apiUrl: 'https://your-production-api.com'
 // };
+export const environment = {
+  production: false,
+  apiUrl: 'https://localhost:7190'
+};
