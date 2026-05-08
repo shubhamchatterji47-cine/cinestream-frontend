@@ -11,5 +11,5 @@
 // };
 export const environment = {
   production: false,
-  apiUrl: 'https://localhost:7190'
+  apiUrl: 'https://cinestream-api-production.up.railway.app'
 };
