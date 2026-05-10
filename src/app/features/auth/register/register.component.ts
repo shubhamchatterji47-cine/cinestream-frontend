@@ -127,6 +127,9 @@ export class RegisterComponent {
   }).subscribe({
     next: (res: any) => {
       this.loading = false;
+       this.error = '';
+  // Show success message then redirect
+  alert('✅ Registration successful! Please check your email to confirm your account before logging in.');
       this.router.navigate(['/login']);
     },
     error: (err) => {
