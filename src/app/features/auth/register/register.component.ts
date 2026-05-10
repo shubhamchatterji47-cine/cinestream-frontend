@@ -109,7 +109,7 @@ export class RegisterComponent {
   get password() { return this.form.get('password')!; }
   get confirmPassword() { return this.form.get('confirmPassword')!; }
 
-  onSubmit(): void {
+ onSubmit(): void {
   if (this.form.invalid) {
     this.form.markAllAsTouched();
     return;
@@ -127,65 +127,31 @@ export class RegisterComponent {
   }).subscribe({
     next: (res: any) => {
       this.loading = false;
-
-      // ✅ SUCCESS POPUP
-      alert(res?.message || 'Registration successful!');
-
-      // ✅ REDIRECT
       this.router.navigate(['/login']);
     },
-
-    // error: (err) => {
-    //   console.error('REGISTER ERROR:', err);
-
-    //   // 🔥 HANDLE STRING RESPONSE (old backend case)
-    //   if (typeof err.error === 'string') {
-    //     if (err.error.includes('success')) {
-    //       // 👉 backend actually succeeded
-    //       alert('Registration successful!');
-    //       this.router.navigate(['/login']);
-    //       return;
-    //     }
-    //     this.error = err.error;
-    //   } else {
-    //     this.error =
-    //       err.error?.message ||
-    //       err.error?.title ||
-    //       'Registration failed';
-    //   }
-
-    //   this.loading = false;
-    // }
     error: (err) => {
-  console.error('REGISTER ERROR:', err);
+      console.error('REGISTER ERROR:', err);
 
-  // ✅ RATE LIMIT HANDLING
-  if (err.status === 429) {
-    this.error = 'Too many requests. Please try again later.';
-    this.loading = false;
-    return;
-  }
+      if (err.status === 429) {
+        this.error = 'Too many requests. Please try again later.';
+        this.loading = false;
+        return;
+      }
 
-  // ✅ HANDLE STRING RESPONSE (your backend case)
-  if (typeof err.error === 'string') {
+      if (typeof err.error === 'string') {
+        if (err.error.toLowerCase().includes('registered') ||
+            err.error.toLowerCase().includes('success') ||
+            err.error.toLowerCase().includes('check your email')) {
+          this.router.navigate(['/login']);
+          return;
+        }
+        this.error = err.error;
+      } else {
+        this.error = err.error?.message || err.error?.title || 'Registration failed';
+      }
 
-    // 🔥 IMPORTANT: backend returns success as string
-    if (err.error.toLowerCase().includes('success')) {
-      alert('Registration successful!');
-      this.router.navigate(['/login']);
-      return;
+      this.loading = false;
     }
-
-    this.error = err.error;
-  } else {
-    this.error =
-      err.error?.message ||
-      err.error?.title ||
-      'Registration failed';
-  }
-
-  this.loading = false;
-}
   });
 }
 }
