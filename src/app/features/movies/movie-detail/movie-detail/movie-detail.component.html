@@ -24,13 +24,32 @@
     </div>
   </div>
   <!-- Full movie embed using TMDB movie ID -->
-<div class="player-wrap" *ngIf="movie">
+<!-- <div class="player-wrap" *ngIf="movie">
   <iframe
     [src]="getMovieEmbedUrl(movie.id)"
     allowfullscreen
     allow="autoplay; encrypted-media"
     class="movie-player"
   ></iframe>
+</div> -->
+<!-- Player Section with multiple sources -->
+<div class="player-section" *ngIf="movie">
+  <div class="player-tabs">
+    <button
+      *ngFor="let source of videoSources; let i = index"
+      [class.active]="currentSourceIndex === i"
+      (click)="switchSource(i)">
+      {{ source.label }}
+    </button>
+  </div>
+  <div class="player-wrap">
+    <iframe
+      *ngIf="currentEmbedUrl"
+      [src]="currentEmbedUrl"
+      allowfullscreen
+      allow="autoplay; encrypted-media">
+    </iframe>
+  </div>
 </div>
 
   <!-- Main Content -->
