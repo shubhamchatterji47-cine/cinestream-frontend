@@ -26,7 +26,11 @@
       <div class="user-menu" *ngIf="authService.currentUser() as user">
         <span class="user-avatar">{{ user.name[0].toUpperCase() }}</span>
         <span class="user-name">{{ user.name }}</span>
-        <button class="logout-btn" (click)="logout()">Sign out</button>
+        <!-- <button class="logout-btn" (click)="logout()">Sign out</button> -->
+         <button class="logout-btn" (click)="logout()">
+  <span class="logout-text">Sign out</span>
+  <span class="logout-icon">⏻</span>
+</button>
       </div>
     </div>
   </div>
