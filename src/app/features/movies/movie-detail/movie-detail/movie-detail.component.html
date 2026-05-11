@@ -32,7 +32,7 @@
     class="movie-player"
   ></iframe>
 </div> -->
-<!-- Player Section with multiple sources -->
+<!-- Player Section -->
 <div class="player-section" *ngIf="movie">
   <div class="player-tabs">
     <button
@@ -42,7 +42,19 @@
       {{ source.label }}
     </button>
   </div>
-  <div class="player-wrap">
+
+  <!-- Mobile: show open button instead of iframe -->
+  <div class="mobile-player" *ngIf="isMobile">
+    <div class="mobile-player-info">
+      <p>📱 Tap a server button above to watch in your browser</p>
+      <button class="btn-watch-mobile" (click)="openInNewTab()">
+        ▶ Watch Now (Server {{ currentSourceIndex + 1 }})
+      </button>
+    </div>
+  </div>
+
+  <!-- Desktop: show iframe -->
+  <div class="player-wrap" *ngIf="!isMobile">
     <iframe
       *ngIf="currentEmbedUrl"
       [src]="currentEmbedUrl"
