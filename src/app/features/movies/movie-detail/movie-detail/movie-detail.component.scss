@@ -702,3 +702,98 @@
 
   &:hover { background: #c4070f; }
 }
+.logout-text {
+  @media (max-width: 550px) {
+    display: none;
+  }
+}
+
+.logout-icon {
+  display: none;
+  @media (max-width: 550px) {
+    display: inline;
+  }
+}
+// ── Player section ──
+.player-section {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 2rem auto 0;
+  padding: 0 2rem;
+}
+
+.player-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+
+  button {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.6);
+    border-radius: 8px;
+    padding: 0.5rem 1.2rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover {
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+    }
+
+    &.active {
+      background: #e50914;
+      border-color: #e50914;
+      color: #fff;
+    }
+  }
+}
+
+.player-wrap {
+  width: 100%;
+  aspect-ratio: 16/9;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #000;
+  border: 1px solid rgba(255,255,255,0.08);
+
+  iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+  }
+}
+
+// ── Mobile player ──
+.mobile-player {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+
+  .mobile-player-info p {
+    color: rgba(255,255,255,0.6);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+  }
+}
+
+.btn-watch-mobile {
+  background: #e50914;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.85rem 2rem;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  &:hover { background: #c4070f; }
+}
